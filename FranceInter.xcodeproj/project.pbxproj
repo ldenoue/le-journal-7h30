@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		29B8FDCFB12B21A6644B4415 /* FranceInterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF23351C587AD7148A4BBB9 /* FranceInterApp.swift */; };
+		545DA917AEC3E1CC9752782D /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDA46EC34102F6BE445B5A8 /* FeedStore.swift */; };
+		555D07625AA0FA2103F701D7 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEAB52E596A8C28BEBA1929 /* AudioPlayer.swift */; };
+		5F3A17591B150CD63A355027 /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F14F65CA07FC16FBA65B96 /* JournalView.swift */; };
+		705079964CD541895BFF6E4B /* PodcastFeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BCC346C9E6AE2E9F281E7D /* PodcastFeedParser.swift */; };
+		A6C405393554194929A66D08 /* PodcastFeedParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6960D2C2A7BF25BA0BB33EA /* PodcastFeedParserTests.swift */; };
+		C073370651261D91743472D4 /* PodcastModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40035D3E1F7A50403BB45343 /* PodcastModels.swift */; };
+		C0B53819927443695A645326 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49262DA707EF6E6B76B7E838 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9A7B16AAC7783F28802134C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DEA980735714D8B7083800E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 941608347917E82D0B1C1383;
+			remoteInfo = FranceInter;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0AEAB52E596A8C28BEBA1929 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		192295C604BD8BA0BF2D36EF /* FranceInter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FranceInter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		40035D3E1F7A50403BB45343 /* PodcastModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastModels.swift; sourceTree = "<group>"; };
+		49262DA707EF6E6B76B7E838 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4CDA46EC34102F6BE445B5A8 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
+		4F46CA8D2D76BE77C826E504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5FE9BF74C67184985A7D1007 /* FranceInterTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FranceInterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AF23351C587AD7148A4BBB9 /* FranceInterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FranceInterApp.swift; sourceTree = "<group>"; };
+		83BCC346C9E6AE2E9F281E7D /* PodcastFeedParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedParser.swift; sourceTree = "<group>"; };
+		85F14F65CA07FC16FBA65B96 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
+		F6960D2C2A7BF25BA0BB33EA /* PodcastFeedParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedParserTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0CF5D1CE4469A02909C59821 /* FranceInter */ = {
+			isa = PBXGroup;
+			children = (
+				49262DA707EF6E6B76B7E838 /* Assets.xcassets */,
+				0AEAB52E596A8C28BEBA1929 /* AudioPlayer.swift */,
+				4CDA46EC34102F6BE445B5A8 /* FeedStore.swift */,
+				7AF23351C587AD7148A4BBB9 /* FranceInterApp.swift */,
+				4F46CA8D2D76BE77C826E504 /* Info.plist */,
+				85F14F65CA07FC16FBA65B96 /* JournalView.swift */,
+				83BCC346C9E6AE2E9F281E7D /* PodcastFeedParser.swift */,
+				40035D3E1F7A50403BB45343 /* PodcastModels.swift */,
+			);
+			path = FranceInter;
+			sourceTree = "<group>";
+		};
+		5D59777F349723053DF3FBE2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				192295C604BD8BA0BF2D36EF /* FranceInter.app */,
+				5FE9BF74C67184985A7D1007 /* FranceInterTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6A123444C9F9B71C22FFF2A1 = {
+			isa = PBXGroup;
+			children = (
+				0CF5D1CE4469A02909C59821 /* FranceInter */,
+				C7CA8FB115139A3C15D71EB4 /* FranceInterTests */,
+				5D59777F349723053DF3FBE2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C7CA8FB115139A3C15D71EB4 /* FranceInterTests */ = {
+			isa = PBXGroup;
+			children = (
+				F6960D2C2A7BF25BA0BB33EA /* PodcastFeedParserTests.swift */,
+			);
+			path = FranceInterTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		941608347917E82D0B1C1383 /* FranceInter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C3F2274859C932B3C65D3B5 /* Build configuration list for PBXNativeTarget "FranceInter" */;
+			buildPhases = (
+				27B6AA4FB68AD7393048B5A8 /* Sources */,
+				73523D9D20F7486149560FEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FranceInter;
+			packageProductDependencies = (
+			);
+			productName = FranceInter;
+			productReference = 192295C604BD8BA0BF2D36EF /* FranceInter.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D5A1A42D7B0CA9AAF1AAAE4E /* FranceInterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8C6F70FE92B3782D0998E3B /* Build configuration list for PBXNativeTarget "FranceInterTests" */;
+			buildPhases = (
+				A52E1975C77641AFE32BDCED /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				54A7F80CBB5DCA35CF3AF946 /* PBXTargetDependency */,
+			);
+			name = FranceInterTests;
+			packageProductDependencies = (
+			);
+			productName = FranceInterTests;
+			productReference = 5FE9BF74C67184985A7D1007 /* FranceInterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7DEA980735714D8B7083800E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					941608347917E82D0B1C1383 = {
+						ProvisioningStyle = Automatic;
+					};
+					D5A1A42D7B0CA9AAF1AAAE4E = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = B839676A34D25DA2B12FC1B2 /* Build configuration list for PBXProject "FranceInter" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 6A123444C9F9B71C22FFF2A1;
+			minimizedProjectReferenceProxies = 1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				941608347917E82D0B1C1383 /* FranceInter */,
+				D5A1A42D7B0CA9AAF1AAAE4E /* FranceInterTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		73523D9D20F7486149560FEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0B53819927443695A645326 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		27B6AA4FB68AD7393048B5A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				555D07625AA0FA2103F701D7 /* AudioPlayer.swift in Sources */,
+				545DA917AEC3E1CC9752782D /* FeedStore.swift in Sources */,
+				29B8FDCFB12B21A6644B4415 /* FranceInterApp.swift in Sources */,
+				5F3A17591B150CD63A355027 /* JournalView.swift in Sources */,
+				705079964CD541895BFF6E4B /* PodcastFeedParser.swift in Sources */,
+				C073370651261D91743472D4 /* PodcastModels.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A52E1975C77641AFE32BDCED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6C405393554194929A66D08 /* PodcastFeedParserTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		54A7F80CBB5DCA35CF3AF946 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 941608347917E82D0B1C1383 /* FranceInter */;
+			targetProxy = 9A7B16AAC7783F28802134C9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1141107F4E5815A01FD19AE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		419B79E207F1877D9BAC6F7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 388X9C8CWR;
+				INFOPLIST_FILE = FranceInter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.appblit.franceinterjournal;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		93E3C5FD86E5B6A8E30F0B72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 388X9C8CWR;
+				INFOPLIST_FILE = FranceInter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.appblit.franceinterjournal;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A2E58B43AF410BF27979FE5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		B34C1040463B1E6758D83CDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.franceinterjournal.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FranceInter.app/FranceInter";
+			};
+			name = Debug;
+		};
+		C29858D65D0E847E5212CE54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.franceinterjournal.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FranceInter.app/FranceInter";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0C3F2274859C932B3C65D3B5 /* Build configuration list for PBXNativeTarget "FranceInter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93E3C5FD86E5B6A8E30F0B72 /* Debug */,
+				419B79E207F1877D9BAC6F7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A8C6F70FE92B3782D0998E3B /* Build configuration list for PBXNativeTarget "FranceInterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B34C1040463B1E6758D83CDE /* Debug */,
+				C29858D65D0E847E5212CE54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B839676A34D25DA2B12FC1B2 /* Build configuration list for PBXProject "FranceInter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1141107F4E5815A01FD19AE4 /* Debug */,
+				A2E58B43AF410BF27979FE5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7DEA980735714D8B7083800E /* Project object */;
+}
