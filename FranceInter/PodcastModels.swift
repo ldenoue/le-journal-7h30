@@ -62,7 +62,7 @@ struct DailyEpisode: Identifiable, Equatable, Sendable {
     let episode: Episode
 
     var id: String {
-        episode.audioURL?.absoluteString ?? "\(feedTitle)-\(episode.id)"
+        episode.id
     }
 
     var artworkURL: URL? {

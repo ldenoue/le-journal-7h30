@@ -46,18 +46,21 @@ final class FeedStore: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        let feeds = await withTaskGroup(of: PodcastFeed?.self, returning: [PodcastFeed].self) { group in
-            for source in PodcastCatalog.sources {
+        let feeds = await withTaskGroup(
+            of: (Int, PodcastFeed?).self,
+            returning: [PodcastFeed].self
+        ) { group in
+            for (index, source) in PodcastCatalog.sources.enumerated() {
                 group.addTask {
-                    await Self.fetch(source)
+                    (index, await Self.fetch(source))
                 }
             }
 
-            var loaded: [PodcastFeed] = []
-            for await feed in group {
-                if let feed { loaded.append(feed) }
+            var loaded: [(Int, PodcastFeed)] = []
+            for await (index, feed) in group {
+                if let feed { loaded.append((index, feed)) }
             }
-            return loaded
+            return loaded.sorted { $0.0 < $1.0 }.map(\.1)
         }
 
         let now = Date()
@@ -83,7 +86,11 @@ final class FeedStore: ObservableObject {
 
         var unique: [String: DailyEpisode] = [:]
         for candidate in candidates {
-            unique[candidate.id] = candidate
+            // The same segment can be syndicated in multiple feeds with different
+            // enclosure URLs. Its RSS GUID remains stable across those feeds.
+            if unique[candidate.id] == nil {
+                unique[candidate.id] = candidate
+            }
         }
 
         episodes = unique.values.sorted {
