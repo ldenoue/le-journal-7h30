@@ -3,6 +3,19 @@ import SwiftUI
 struct JournalView: View {
     @StateObject private var store = FeedStore()
     @StateObject private var audioPlayer = AudioPlayer()
+    @State private var selectedID: String?
+
+    private var startingEpisode: DailyEpisode? {
+        store.episodes.first(where: \.isSevenThirtyJournal) ?? store.episodes.first
+    }
+
+    private var selectedEpisode: DailyEpisode? {
+        if let selectedID,
+           let selected = store.episodes.first(where: { $0.id == selectedID }) {
+            return selected
+        }
+        return startingEpisode
+    }
 
     var body: some View {
         ZStack {
@@ -14,8 +27,8 @@ struct JournalView: View {
             .ignoresSafeArea()
 
             Group {
-                if let feed = store.feed, let episode = feed.latestEpisode {
-                    playerContent(feed: feed, episode: episode)
+                if let selectedEpisode {
+                    playerContent(selected: selectedEpisode)
                 } else if let error = store.errorMessage {
                     errorView(error)
                 } else {
@@ -23,38 +36,61 @@ struct JournalView: View {
                 }
             }
         }
-        .task { await store.load() }
+        .task {
+            await store.load()
+            selectStartingEpisodeIfNeeded()
+        }
+        .onChange(of: store.episodes) { _, _ in
+            selectStartingEpisodeIfNeeded()
+        }
     }
 
-    private func playerContent(feed: PodcastFeed, episode: Episode) -> some View {
+    private func playerContent(selected: DailyEpisode) -> some View {
         ScrollView {
             VStack(spacing: 0) {
-                header(feed: feed)
-                    .padding(.bottom, 16)
+                header
+                    .padding(.bottom, 12)
 
-                artwork(url: feed.artworkURL ?? episode.artworkURL)
-                    .frame(maxWidth: 240)
-                    .padding(.horizontal, 24)
+                artworkCarousel
 
-                VStack(spacing: 14) {
-                    latestBadge
+                VStack(spacing: 12) {
+                    pagePosition(for: selected)
+                    broadcastBadge(selected.episode)
 
-                    Text(episode.formattedDate.capitalized(with: Locale(identifier: "fr_FR")))
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.white.opacity(0.68))
-                        .multilineTextAlignment(.center)
+                    VStack(spacing: 5) {
+                        Text(selected.displayTitle)
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                            .foregroundStyle(.white)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.75)
 
-                    metadata(episode)
-                    controls(feed: feed, episode: episode)
+                        if selected.episode.title != selected.displayTitle {
+                            Text(selected.episode.title)
+                                .font(.subheadline.weight(.medium))
+                                .foregroundStyle(.white.opacity(0.72))
+                                .multilineTextAlignment(.center)
+                                .lineLimit(2)
+                        }
+
+                        Text(selected.episode.formattedDate.capitalized(with: Locale(identifier: "fr_FR")))
+                            .font(.caption.weight(.medium))
+                            .foregroundStyle(.white.opacity(0.48))
+                    }
+
+                    metadata(selected.episode)
+                    controls(entry: selected)
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 18)
+                .padding(.top, 10)
                 .padding(.bottom, 24)
             }
             .frame(maxWidth: 620)
             .frame(maxWidth: .infinity)
         }
-        .refreshable { await store.load() }
+        .refreshable {
+            await store.load()
+        }
         .alert(
             "Lecture impossible",
             isPresented: Binding(
@@ -68,14 +104,14 @@ struct JournalView: View {
         }
     }
 
-    private func header(feed: PodcastFeed) -> some View {
+    private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
                 Text("FRANCE INTER")
                     .font(.caption2.weight(.black))
                     .tracking(2.2)
                     .foregroundStyle(Color(red: 1, green: 0.30, blue: 0.35))
-                Text(feed.title)
+                Text("Aujourd’hui sur Inter")
                     .font(.title3.weight(.bold))
                     .foregroundStyle(.white)
             }
@@ -89,10 +125,29 @@ struct JournalView: View {
                     .background(.white.opacity(0.09), in: Circle())
             }
             .disabled(store.isLoading)
-            .accessibilityLabel("Actualiser le journal")
+            .accessibilityLabel("Actualiser les émissions")
         }
         .padding(.horizontal, 22)
         .padding(.top, 18)
+    }
+
+    private var artworkCarousel: some View {
+        TabView(
+            selection: Binding(
+                get: { selectedID ?? startingEpisode?.id ?? "" },
+                set: { selectedID = $0 }
+            )
+        ) {
+            ForEach(store.episodes) { entry in
+                artwork(url: entry.artworkURL)
+                    .frame(width: 220, height: 220)
+                    .padding(.horizontal, 40)
+                    .tag(entry.id)
+                    .accessibilityLabel("\(entry.displayTitle), \(entry.episode.formattedTime)")
+            }
+        }
+        .frame(height: 220)
+        .tabViewStyle(.page(indexDisplayMode: .never))
     }
 
     private func artwork(url: URL?) -> some View {
@@ -109,13 +164,13 @@ struct JournalView: View {
                 }
             }
         }
-        .aspectRatio(1, contentMode: .fit)
-        .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+        .aspectRatio(1, contentMode: .fill)
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 26, style: .continuous)
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .stroke(.white.opacity(0.12), lineWidth: 1)
         }
-        .shadow(color: Color.red.opacity(0.17), radius: 30, y: 18)
+        .shadow(color: Color.red.opacity(0.17), radius: 24, y: 14)
     }
 
     private var artworkPlaceholder: some View {
@@ -125,21 +180,34 @@ struct JournalView: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            VStack(spacing: 8) {
-                Text("7:30")
-                    .font(.system(size: 72, weight: .black, design: .rounded))
-                Text("LE JOURNAL")
+            VStack(spacing: 10) {
+                Image(systemName: "waveform")
+                    .font(.system(size: 50, weight: .bold))
+                Text("FRANCE INTER")
                     .font(.caption.weight(.black))
-                    .tracking(4)
+                    .tracking(3)
             }
             .foregroundStyle(.white)
         }
     }
 
-    private var latestBadge: some View {
-        Label("DERNIÈRE ÉDITION", systemImage: "waveform")
+    private func pagePosition(for selected: DailyEpisode) -> some View {
+        let index = store.episodes.firstIndex(where: { $0.id == selected.id }) ?? 0
+        return HStack(spacing: 8) {
+            Image(systemName: "chevron.left")
+            Text("\(index + 1) / \(store.episodes.count)")
+                .monospacedDigit()
+            Image(systemName: "chevron.right")
+        }
+        .font(.caption2.weight(.semibold))
+        .foregroundStyle(.white.opacity(0.38))
+        .accessibilityLabel("Émission \(index + 1) sur \(store.episodes.count)")
+    }
+
+    private func broadcastBadge(_ episode: Episode) -> some View {
+        Label("AUJOURD’HUI · \(episode.formattedTime)", systemImage: "waveform")
             .font(.caption2.weight(.bold))
-            .tracking(1.2)
+            .tracking(1.1)
             .foregroundStyle(Color(red: 1, green: 0.38, blue: 0.42))
             .padding(.horizontal, 12)
             .padding(.vertical, 7)
@@ -148,76 +216,90 @@ struct JournalView: View {
 
     private func metadata(_ episode: Episode) -> some View {
         HStack(spacing: 14) {
-            metaPill(icon: "person.fill", text: episode.author)
+            if !episode.author.isEmpty {
+                metaPill(icon: "person.fill", text: episode.author)
+            }
             if let duration = episode.formattedDuration {
                 metaPill(icon: "clock.fill", text: duration)
             }
-            if !episode.category.isEmpty {
-                metaPill(icon: "newspaper.fill", text: "Actualités")
-            }
+            metaPill(icon: "headphones", text: "Replay")
         }
         .lineLimit(1)
-        .minimumScaleFactor(0.75)
+        .minimumScaleFactor(0.7)
     }
 
     private func metaPill(icon: String, text: String) -> some View {
         Label(text, systemImage: icon)
             .font(.caption.weight(.semibold))
-            .foregroundStyle(.white.opacity(0.72))
+            .foregroundStyle(.white.opacity(0.68))
     }
 
-    private func controls(feed: PodcastFeed, episode: Episode) -> some View {
-        VStack(spacing: 16) {
+    private func controls(entry: DailyEpisode) -> some View {
+        let episode = entry.episode
+        let isLoaded = audioPlayer.isLoaded(episode)
+        let isPlaying = audioPlayer.isActivelyPlaying(episode)
+        let isBuffering = audioPlayer.isBuffering(episode)
+        let elapsed = isLoaded ? audioPlayer.currentTime : 0
+        let total = isLoaded && audioPlayer.duration > 0
+            ? audioPlayer.duration
+            : episode.duration ?? 0
+
+        return VStack(spacing: 14) {
             HStack(spacing: 34) {
                 Button { audioPlayer.skip(by: -15) } label: {
                     Image(systemName: "gobackward.15")
                 }
+                .disabled(!isLoaded)
+                .opacity(isLoaded ? 1 : 0.35)
 
                 Button {
                     audioPlayer.toggle(
                         episode: episode,
-                        feedTitle: feed.title,
-                        artworkURL: feed.artworkURL ?? episode.artworkURL
+                        feedTitle: entry.displayTitle,
+                        artworkURL: entry.artworkURL
                     )
                 } label: {
                     ZStack {
                         Circle()
                             .fill(Color(red: 0.98, green: 0.15, blue: 0.22))
-                            .frame(width: 76, height: 76)
+                            .frame(width: 70, height: 70)
                             .shadow(color: Color.red.opacity(0.35), radius: 16, y: 8)
-                        if audioPlayer.isBuffering {
+                        if isBuffering {
                             ProgressView().tint(.white)
                         } else {
-                            Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
-                                .font(.system(size: 28, weight: .bold))
-                                .offset(x: audioPlayer.isPlaying ? 0 : 2)
+                            Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                                .font(.system(size: 26, weight: .bold))
+                                .offset(x: isPlaying ? 0 : 2)
                         }
                     }
                 }
-                .accessibilityLabel(audioPlayer.isPlaying ? "Mettre en pause" : "Lire le dernier journal")
+                .accessibilityLabel(isPlaying ? "Mettre en pause" : "Lire \(entry.displayTitle)")
 
                 Button { audioPlayer.skip(by: 15) } label: {
                     Image(systemName: "goforward.15")
                 }
+                .disabled(!isLoaded)
+                .opacity(isLoaded ? 1 : 0.35)
             }
             .font(.title2.weight(.semibold))
             .foregroundStyle(.white)
             .buttonStyle(.plain)
 
-            VStack(spacing: 4) {
+            VStack(spacing: 3) {
                 Slider(
                     value: Binding(
-                        get: { audioPlayer.currentTime },
+                        get: { elapsed },
                         set: { audioPlayer.seek(to: $0) }
                     ),
-                    in: 0...max(audioPlayer.duration, episode.duration ?? 1, 1)
+                    in: 0...max(total, 1)
                 )
+                .disabled(!isLoaded)
                 .tint(Color(red: 1, green: 0.24, blue: 0.30))
 
                 HStack {
-                    Text(time(audioPlayer.currentTime))
+                    Text(time(elapsed))
                     Spacer()
-                    Text("−\(time(max((audioPlayer.duration > 0 ? audioPlayer.duration : episode.duration ?? 0) - audioPlayer.currentTime, 0)))")
+                    Text("−\(time(max(total - elapsed, 0)))")
                 }
                 .font(.caption.monospacedDigit())
                 .foregroundStyle(.white.opacity(0.45))
@@ -228,7 +310,7 @@ struct JournalView: View {
     private var loadingView: some View {
         VStack(spacing: 18) {
             ProgressView().controlSize(.large).tint(.white)
-            Text("Recherche du dernier journal…")
+            Text("Préparation des émissions du jour…")
                 .font(.headline)
                 .foregroundStyle(.white.opacity(0.72))
         }
@@ -236,15 +318,28 @@ struct JournalView: View {
 
     private func errorView(_ message: String) -> some View {
         ContentUnavailableView {
-            Label("Journal indisponible", systemImage: "antenna.radiowaves.left.and.right.slash")
+            Label("Émissions indisponibles", systemImage: "antenna.radiowaves.left.and.right.slash")
         } description: {
             Text(message)
         } actions: {
-            Button("Réessayer") { Task { await store.load() } }
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
+            Button("Réessayer") {
+                Task {
+                    await store.load()
+                    selectStartingEpisodeIfNeeded()
+                }
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(.red)
         }
         .foregroundStyle(.white)
+    }
+
+    private func selectStartingEpisodeIfNeeded() {
+        if let selectedID,
+           store.episodes.contains(where: { $0.id == selectedID }) {
+            return
+        }
+        selectedID = startingEpisode?.id
     }
 
     private func time(_ interval: TimeInterval) -> String {
@@ -253,5 +348,3 @@ struct JournalView: View {
         return String(format: "%d:%02d", total / 60, total % 60)
     }
 }
-
-

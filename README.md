@@ -1,20 +1,21 @@
-# Le Journal de 7h30
+# Aujourd’hui sur France Inter
 
-A small SwiftUI app for listening to the latest **Journal de 7h30** from France Inter.
+A small SwiftUI app for catching up with France Inter throughout the day, including **Le Journal de 7h30**, interviews, and daily programs.
 
 <p align="center">
-  <img src="docs/le-journal-7h30-app.png" alt="Le Journal de 7h30 app playing the latest France Inter news bulletin" width="375">
+  <img src="docs/le-journal-7h30-app.png" alt="The app playing a France Inter news bulletin" width="375">
 </p>
 
 ## Why I made it
 
-I wanted a simple way to listen to the French morning news every day, wherever I was in the world. So I created this app and made it open source in the hope that it will be useful to others too.
+I wanted a simple way to listen to French news and programs every day, wherever I was in the world. So I created this app and made it open source in the hope that it will be useful to others too.
 
 ## What it does
 
-- Loads the official France Inter podcast RSS feed
-- Selects the most recent 7:30 a.m. news bulletin automatically
-- Displays the publication date, presenter, duration, and artwork
+- Loads public France Inter podcast RSS feeds
+- Builds a chronological carousel of the programs and segments published that day
+- Selects the 7:30 a.m. journal initially while keeping the full day available chronologically
+- Displays the France broadcast time, publication date, presenter, duration, and artwork
 - Streams the audio without waiting for the entire episode to download
 - Supports seeking, 15-second skips, background playback, and lock-screen controls
 

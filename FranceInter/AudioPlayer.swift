@@ -56,6 +56,18 @@ final class AudioPlayer: ObservableObject {
         errorMessage = nil
     }
 
+    func isLoaded(_ episode: Episode) -> Bool {
+        loadedURL == episode.audioURL
+    }
+
+    func isActivelyPlaying(_ episode: Episode) -> Bool {
+        isLoaded(episode) && isPlaying
+    }
+
+    func isBuffering(_ episode: Episode) -> Bool {
+        isLoaded(episode) && isBuffering
+    }
+
     private func load(_ url: URL, episode: Episode, feedTitle: String, artworkURL: URL?) {
         errorMessage = nil
         isBuffering = true

@@ -1,6 +1,6 @@
 import Foundation
 
-struct PodcastFeed: Equatable {
+struct PodcastFeed: Equatable, Sendable {
     let title: String
     let author: String
     let summary: String
@@ -14,7 +14,7 @@ struct PodcastFeed: Equatable {
     }
 }
 
-struct Episode: Identifiable, Equatable {
+struct Episode: Identifiable, Equatable, Sendable {
     let id: String
     let title: String
     let author: String
@@ -34,6 +34,15 @@ struct Episode: Identifiable, Equatable {
         return formatter.string(from: publicationDate)
     }
 
+    var formattedTime: String {
+        guard let publicationDate else { return "--:--" }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.timeZone = TimeZone(identifier: "Europe/Paris")
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: publicationDate)
+    }
+
     var formattedDuration: String? {
         guard let duration else { return nil }
         let total = Int(duration.rounded())
@@ -43,6 +52,40 @@ struct Episode: Identifiable, Equatable {
         return hours > 0
             ? String(format: "%d:%02d:%02d", hours, minutes, seconds)
             : String(format: "%d:%02d", minutes, seconds)
+    }
+}
+
+struct DailyEpisode: Identifiable, Equatable, Sendable {
+    let feedTitle: String
+    let feedAuthor: String
+    let feedArtworkURL: URL?
+    let episode: Episode
+
+    var id: String {
+        episode.audioURL?.absoluteString ?? "\(feedTitle)-\(episode.id)"
+    }
+
+    var artworkURL: URL? {
+        episode.artworkURL ?? feedArtworkURL
+    }
+
+    var isSevenThirtyJournal: Bool {
+        feedTitle.localizedCaseInsensitiveContains("journaux de France Inter")
+            && episode.title.range(
+                of: #"journal de 0?7h30"#,
+                options: [.regularExpression, .caseInsensitive]
+            ) != nil
+    }
+
+    var displayTitle: String {
+        guard feedTitle.localizedCaseInsensitiveContains("journaux de France Inter"),
+              let range = episode.title.range(
+                of: #"le journal de \d{1,2}h(?:\d{2})?"#,
+                options: [.regularExpression, .caseInsensitive]
+              ) else {
+            return feedTitle
+        }
+        return String(episode.title[range])
     }
 }
 
