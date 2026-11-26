@@ -43,6 +43,22 @@ struct Episode: Identifiable, Equatable, Sendable {
         return formatter.string(from: publicationDate)
     }
 
+    var parisDayLabel: String {
+        guard let publicationDate else { return "ÉDITION" }
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Europe/Paris")!
+        if calendar.isDateInToday(publicationDate) { return "AUJOURD’HUI" }
+        if calendar.isDateInYesterday(publicationDate) { return "HIER" }
+        return "ÉDITION"
+    }
+
+    var isTodayInParis: Bool {
+        guard let publicationDate else { return false }
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Europe/Paris")!
+        return calendar.isDateInToday(publicationDate)
+    }
+
     var formattedDuration: String? {
         guard let duration else { return nil }
         let total = Int(duration.rounded())

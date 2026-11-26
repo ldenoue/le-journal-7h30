@@ -40,15 +40,16 @@ final class FeedStore: ObservableObject {
     @Published private(set) var episodes: [DailyEpisode] = []
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
+    @Published private(set) var failedFeedCount = 0
 
     func load() async {
         guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
 
-        let feeds = await withTaskGroup(
+        let results = await withTaskGroup(
             of: (Int, PodcastFeed?).self,
-            returning: [PodcastFeed].self
+            returning: [(Int, PodcastFeed?)].self
         ) { group in
             for (index, source) in PodcastCatalog.sources.enumerated() {
                 group.addTask {
@@ -56,23 +57,23 @@ final class FeedStore: ObservableObject {
                 }
             }
 
-            var loaded: [(Int, PodcastFeed)] = []
-            for await (index, feed) in group {
-                if let feed { loaded.append((index, feed)) }
-            }
-            return loaded.sorted { $0.0 < $1.0 }.map(\.1)
+            var loaded: [(Int, PodcastFeed?)] = []
+            for await result in group { loaded.append(result) }
+            return loaded.sorted { $0.0 < $1.0 }
         }
+
+        let feeds = results.compactMap(\.1)
+        failedFeedCount = PodcastCatalog.sources.count - feeds.count
 
         let now = Date()
         var parisCalendar = Calendar(identifier: .gregorian)
         parisCalendar.locale = Locale(identifier: "fr_FR")
         parisCalendar.timeZone = TimeZone(identifier: "Europe/Paris")!
 
-        let candidates = feeds.flatMap { feed in
+        let playable = feeds.flatMap { feed in
             feed.episodes.compactMap { episode -> DailyEpisode? in
                 guard let date = episode.publicationDate,
                       date <= now.addingTimeInterval(5 * 60),
-                      parisCalendar.isDate(date, inSameDayAs: now),
                       episode.audioURL != nil else { return nil }
 
                 return DailyEpisode(
@@ -81,6 +82,30 @@ final class FeedStore: ObservableObject {
                     feedArtworkURL: feed.artworkURL,
                     episode: episode
                 )
+            }
+        }
+
+        let today = playable.filter {
+            guard let date = $0.episode.publicationDate else { return false }
+            return parisCalendar.isDate(date, inSameDayAs: now)
+        }
+        let yesterday = parisCalendar.date(byAdding: .day, value: -1, to: now)!
+        let hasRecentExistingEpisodes = episodes.contains {
+            guard let date = $0.episode.publicationDate else { return false }
+            return parisCalendar.isDate(date, inSameDayAs: now)
+                || parisCalendar.isDate(date, inSameDayAs: yesterday)
+        }
+        let candidates: [DailyEpisode]
+        if !today.isEmpty {
+            candidates = today
+        } else if hasRecentExistingEpisodes {
+            // Keep the last complete carousel during the overnight gap or a
+            // transient refresh failure instead of replacing it with less data.
+            candidates = []
+        } else {
+            candidates = playable.filter {
+                guard let date = $0.episode.publicationDate else { return false }
+                return parisCalendar.isDate(date, inSameDayAs: yesterday)
             }
         }
 
@@ -93,14 +118,23 @@ final class FeedStore: ObservableObject {
             }
         }
 
-        episodes = unique.values.sorted {
+        let refreshedEpisodes = unique.values.sorted {
             ($0.episode.publicationDate ?? .distantPast) < ($1.episode.publicationDate ?? .distantPast)
         }
 
-        if episodes.isEmpty {
-            errorMessage = feeds.isEmpty
-                ? "Impossible de joindre les flux de France Inter."
-                : "Aucune émission avec replay n’est encore disponible aujourd’hui."
+        if refreshedEpisodes.isEmpty {
+            if episodes.isEmpty {
+                if feeds.isEmpty {
+                    errorMessage = "Impossible de joindre les flux de France Inter."
+                } else if failedFeedCount > 0 {
+                    errorMessage = "Certains flux n’ont pas répondu et aucune émission récente n’a pu être chargée."
+                } else {
+                    errorMessage = "Aucune émission avec replay n’est disponible aujourd’hui ni hier."
+                }
+            }
+        } else {
+            episodes = refreshedEpisodes
+            errorMessage = nil
         }
 
         isLoading = false

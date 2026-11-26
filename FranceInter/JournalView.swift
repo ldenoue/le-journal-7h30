@@ -48,7 +48,7 @@ struct JournalView: View {
     private func playerContent(selected: DailyEpisode) -> some View {
         ScrollView {
             VStack(spacing: 0) {
-                header
+                header(for: selected.episode)
                     .padding(.bottom, 12)
 
                 artworkCarousel
@@ -104,14 +104,14 @@ struct JournalView: View {
         }
     }
 
-    private var header: some View {
+    private func header(for episode: Episode) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
                 Text("FRANCE INTER")
                     .font(.caption2.weight(.black))
                     .tracking(2.2)
                     .foregroundStyle(Color(red: 1, green: 0.30, blue: 0.35))
-                Text("Aujourd’hui sur Inter")
+                Text(episode.isTodayInParis ? "Aujourd’hui sur Inter" : "Hier sur Inter")
                     .font(.title3.weight(.bold))
                     .foregroundStyle(.white)
             }
@@ -205,7 +205,7 @@ struct JournalView: View {
     }
 
     private func broadcastBadge(_ episode: Episode) -> some View {
-        Label("AUJOURD’HUI · \(episode.formattedTime)", systemImage: "waveform")
+        Label("\(episode.parisDayLabel) · \(episode.formattedTime)", systemImage: "waveform")
             .font(.caption2.weight(.bold))
             .tracking(1.1)
             .foregroundStyle(Color(red: 1, green: 0.38, blue: 0.42))
